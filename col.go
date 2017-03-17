@@ -51,7 +51,10 @@ func (xf *XfRk) String(wb *WorkBook) string {
 		if fNo >= 164 { // user defined format
 			if fmt := wb.Formats[fNo]; fmt != nil {
 				i, f, isFloat := xf.Rk.number()
-				if !isFloat {
+				// It's a dirty hack, but someones gotta do it
+				if isFloat {
+					return strconv.FormatFloat(f, 'f', 2, 64)
+				} else {
 					f = float64(i)
 				}
 				t := timeFromExcelTime(f, wb.dateMode == 1)
